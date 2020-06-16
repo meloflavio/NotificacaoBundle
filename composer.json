@@ -3,14 +3,9 @@
   "type": "symfony-bundle",
   "description": "Notificaçoes para symfony 4.",
   "keywords": ["notificacao", "mensagem"],
-  "homepage": "https://git.uft.edu.br",
+  "homepage": "https://github.com/meloflavio",
   "license": "MIT",
   "authors": [
-    {
-      "name": "Thibault Duplessis",
-      "email": "thibault.duplessis@gmail.com",
-      "homepage": "http://ornicar.github.com"
-    },
     {
       "name": "Flávio Melo",
       "email": "meloflavio@uft.edu.br"
@@ -36,10 +31,5 @@
   "autoload": {
     "psr-0": { "MeloFlavio\\NotificacaoBundle": "" }
   },
-  "target-dir": "meloflavio/NotificacaoBundle",
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0-dev"
-    }
-  }
+  "target-dir": "meloflavio/NotificacaoBundle"
 }
