@@ -3,13 +3,14 @@
 
 namespace MeloFlavio\NotificacaoBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
 
 
-class MeloFlavioNotificacaoExtension extends Extension
+class MeloFlavioNotificacaoExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -35,19 +36,20 @@ class MeloFlavioNotificacaoExtension extends Extension
     {
         // get all Bundles
         $bundles = $container->getParameter('kernel.bundles');
+
         if (isset($bundles['DoctrineBundle'])) {
             // Get configuration of our own bundle
             $configs = $container->getExtensionConfig($this->getAlias());
             $config = $this->processConfiguration(new Configuration(), $configs);
 
             // Prepare for insertion
-            $forInsertion = array(
-                'orm' => array(
-                    'resolve_target_entities' => array(
-                        'FOS\UserBundle\Model\UserInterface' => $config['user']['class']
-                    )
-                )
-            );
+            $forInsertion = [
+                'orm' => [
+                    'resolve_target_entities' => [
+                        'Sonata\UserBundle\Model\UserInterface' => $config['user']['class']
+                    ]
+                ]
+            ];
             foreach ($container->getExtensions() as $name => $extension) {
                 switch ($name) {
                     case 'doctrine':

@@ -32,7 +32,7 @@ class NotificacaoListener implements EventSubscriber
         return array(Events::postPersist);
     }
 
-    public function sendMessage(LifecycleEventArgs $eventArgs){
+    public function sendMessage(LifecycleEventArgs $eventArgs, $canal = 'message_historia'){
 
         /** @var NotificacaoBase $notificacao */
         $notificacao = $eventArgs->getObject();
@@ -40,10 +40,10 @@ class NotificacaoListener implements EventSubscriber
         $username = $notificacao->getCreatedBy()->getUsername();
 
         $serializado = $this->serializer->serialize($notificacao, 'json', [
-            'attributes' => ['id', 'icone','texto','forBlock'=>[array_keys($notificacao->getForBlock())], 'createdBy'=>['username'], 'created']
+            'attributes' => ['id', 'icone','texto','forBlock'=>[array_keys($notificacao->getForBlock())], 'createdBy'=>['username','firstName','lastname'], 'created']
         ]);
 //
-        $this->publish( sprintf("/message_historia/%s",$notificacao->getHistoria()->getId()),$serializado);
+        $this->publish( sprintf("/{$canal}/%s",$notificacao->getHistoria()->getId()),$serializado);
 
         return ;
 

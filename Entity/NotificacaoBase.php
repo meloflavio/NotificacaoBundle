@@ -2,7 +2,8 @@
 namespace MeloFlavio\NotificacaoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\UserInterface;
+use DateTime;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Base
@@ -23,34 +24,32 @@ abstract class NotificacaoBase
     private $icone = 'fa fa-envelope';
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     protected $created;
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
-    private $updated;
+    protected $updated;
 
     /**
-     * @var Usuario $createdBy
      *
      * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="UserInterface")
+     * @ORM\ManyToOne(targetEntity="Sonata\UserBundle\Model\UserInterface")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
      */
-    private $createdBy;
+    protected $createdBy;
     /**
-     * @var Usuario updatedBy
      *
      * @Gedmo\Blameable(on="update")
-     * @ORM\ManyToOne(targetEntity="UserInterface")
+     * @ORM\ManyToOne(targetEntity="Sonata\UserBundle\Model\UserInterface")
      * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
      */
-    private $updatedBy;
+    protected $updatedBy;
 
 
     public function __construct()
@@ -58,65 +57,65 @@ abstract class NotificacaoBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreated(): ?\DateTime
+    public function getCreated(): ?DateTime
     {
         return $this->created;
     }
 
     /**
-     * @param \DateTime $created
+     * @param DateTime $created
      */
-    public function setCreated(\DateTime $created): void
+    public function setCreated(DateTime $created): void
     {
         $this->created = $created;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getUpdated(): ?\DateTime
+    public function getUpdated(): ?DateTime
     {
         return $this->updated;
     }
 
     /**
-     * @param \DateTime $updated
+     * @param DateTime $updated
      */
-    public function setUpdated(\DateTime $updated): void
+    public function setUpdated(DateTime $updated): void
     {
         $this->updated = $updated;
     }
 
     /**
-     * @return UserInterface
+     * @return \Sonata\UserBundle\Model\UserInterface
      */
-    public function getCreatedBy(): ?UserInterface
+    public function getCreatedBy(): ?\Sonata\UserBundle\Model\UserInterface
     {
         return $this->createdBy;
     }
 
     /**
-     * @param UserInterface $createdBy
+     * @param \Sonata\UserBundle\Model\UserInterface $createdBy
      */
-    public function setCreatedBy(UserInterface $createdBy): void
+    public function setCreatedBy(\Sonata\UserBundle\Model\UserInterface $createdBy): void
     {
         $this->createdBy = $createdBy;
     }
 
     /**
-     * @return UserInterface
+     * @return \Sonata\UserBundle\Model\UserInterface
      */
-    public function getUpdatedBy(): ?UserInterface
+    public function getUpdatedBy(): ?\Sonata\UserBundle\Model\UserInterface
     {
         return $this->updatedBy;
     }
 
     /**
-     * @param UserInterface $updatedBy
+     * @param \Sonata\UserBundle\Model\UserInterface $updatedBy
      */
-    public function setUpdatedBy(UserInterface $updatedBy): void
+    public function setUpdatedBy(\Sonata\UserBundle\Model\UserInterface $updatedBy): void
     {
         $this->updatedBy = $updatedBy;
     }

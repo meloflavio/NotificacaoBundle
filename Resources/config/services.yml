@@ -1,0 +1,15 @@
+parameters:
+  mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
+  mercure_url: '%env(MERCURE_PUBLISH_URL)%'
+  mercure_token: '%env(MERCURE_JWT_TOKEN)%'
+
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+  meloflavio.notificacao_listener:
+    class: MeloFlavio\NotificacaoBundle\Event\EventListener\NotificacaoListener
+    tags:
+      - name: doctrine.event_subscriber
