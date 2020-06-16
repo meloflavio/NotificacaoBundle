@@ -1,0 +1,45 @@
+{
+  "name": "uft/notificacao-bundle",
+  "type": "symfony-bundle",
+  "description": "Notificaçoes para symfony 4.",
+  "keywords": ["notificacao", "mensagem"],
+  "homepage": "https://git.uft.edu.br",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Thibault Duplessis",
+      "email": "thibault.duplessis@gmail.com",
+      "homepage": "http://ornicar.github.com"
+    },
+    {
+      "name": "Flávio Melo",
+      "email": "meloflavio@uft.edu.br"
+    }
+  ],
+  "require": {
+    "php": "^7.1.3",
+    "symfony/config": "^4.3.7|^5.0",
+    "symfony/dependency-injection": "^4.3.7|^5.0",
+    "symfony/http-kernel": "^4.3.7|^5.0",
+    "symfony/mercure-bundle": "^0.2.3",
+    "sonata-project/doctrine-orm-admin-bundle": "^3.9",
+    "sonata-project/user-bundle": "^4.5",
+    "sonata-project/admin-bundle": "^3.55"
+  },
+  "require-dev": {
+    "symfony/phpunit-bridge": "^3.0"
+  },
+  "suggest": {
+    "doctrine/doctrine-bundle": "dev-master",
+    "doctrine/mongodb-odm-bundle": "dev-master"
+  },
+  "autoload": {
+    "psr-0": { "MeloFlavio\\NotificacaoBundle": "" }
+  },
+  "target-dir": "meloflavio/NotificacaoBundle",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
