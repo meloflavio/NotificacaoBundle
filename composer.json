@@ -1,5 +1,5 @@
 {
-  "name": "uft/notificacao-bundle",
+  "name": "meloflavio/notificacao-bundle",
   "type": "symfony-bundle",
   "description": "Notificaçoes para symfony 4.",
   "keywords": ["notificacao", "mensagem"],
