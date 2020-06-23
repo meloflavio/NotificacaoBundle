@@ -30,6 +30,14 @@
     "doctrine/mongodb-odm-bundle": "dev-master"
   },
   "autoload": {
-    "psr-0": { "MeloFlavio\\NotificacaoBundle": "" }
+    "psr-4": { "MeloFlavio\\NotificacaoBundle": "" }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "platform": {
+      "php": "7.2.0"
+    }
   }
 }
