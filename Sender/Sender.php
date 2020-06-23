@@ -66,6 +66,16 @@ class Sender implements SenderInterface
         $this->publish( "/global",$jsonData);
     }
 
+    public function sendGlobalUserNotification( $username,$title, $text)
+    {
+
+        if( $this->container->hasParameter('APP_NAME')){
+            $system = $this->container->hasParameter('APP_NAME');
+            $text = $system.' diz: '.$text;
+        }
+        $this->sendObject( json_encode(['title'=>$title,'text'=>$text ]));
+    }
+
     public function  publish($topic,$data){
         $postData = http_build_query([
             'topic' => $topic,

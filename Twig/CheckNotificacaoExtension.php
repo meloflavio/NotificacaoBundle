@@ -23,14 +23,18 @@ class CheckNotificacaoExtension extends  AbstractExtension
         return [
             new TwigFunction('notificacao_render', [$this, 'renderNotificacao'], ['is_safe' => ['html']]),
             new TwigFunction('notificacao_basica_render', [$this, 'renderNotificacaoBasica'], ['is_safe' => ['html']]),
+            new TwigFunction('notificacao_para_min_render', [$this, 'renderMinhaNotificacao'], ['is_safe' => ['html']]),
         ];
     }
 
     public function renderNotificacaoBasica(string $topic, string $elementoAlvo){
-        return  $this->createHtmlNotify($topic,$elementoAlvo);
+        return  $this->createHtmlNotify($topic);
     }
     public function renderNotificacao(string $topic, string $elementoAlvo){
         return  $this->createHtmlDiv($topic,$elementoAlvo);
+
+    }public function renderMinhaNotificacao(string $username){
+        return  $this->createHtmlNotify('/global/'.$username);
     }
 
     public  function createHtmlNotify( $topic){
@@ -39,8 +43,8 @@ class CheckNotificacaoExtension extends  AbstractExtension
         document.addEventListener(\'DOMContentLoaded\',function () {
             function addMessage(data){
                   new PNotify({
-                      title: \'Regular Notice\',
-                      text: data
+                      title: data.title,
+                      text: data.text
                     });
             }
             fetch("'.$this->getPath('meloflavio_notificacao_discover').'").then(result => {
