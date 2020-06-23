@@ -65,7 +65,17 @@ abstract class Notificacao extends NotificacaoBase
     private $texto;
 
     
-    ...
+
+     /**
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\ManyToOne(targetEntity="Sonata\UserBundle\Model\UserInterface")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     */
+    protected $createdBy;
+    
+...
+
 }
 ```
 ####6.  Exemplo de como utilizar
@@ -93,7 +103,7 @@ Adicione ao templete substituindo {{ settings.data_alvo.id }} pelo id da mensage
 
                 const url  = new URL(hubUrl);
                 // let url = new URL("http://localhost:9090/.well-known/mercure");
-                url.searchParams.append('topic', '/message_historia/{{ settings.data_alvo.id }}')
+                url.searchParams.append('topic', '/notificcao_base/{{app.user.username}}')
                 const eventSource = new EventSource(url,{
                     withCredentials: true
                 });

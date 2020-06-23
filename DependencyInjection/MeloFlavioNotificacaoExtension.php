@@ -19,9 +19,15 @@ class MeloFlavioNotificacaoExtension extends Extension implements PrependExtensi
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        $container->setParameter('meloflavio_notificacao.user.class', $config['user']['class']);
+        $container->setParameter('meloflavio_notificacao.class.user', $config['class']['user']);
+        $container->setParameter('meloflavio_notificacao.persist', $config['persist']);
+        $container->setParameter('meloflavio_notificacao.topic.default', $config['topic']['default']);
+        $container->setParameter('meloflavio_notificacao.topic.parameter_id', $config['topic']['parameter_id']);
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        if($config['persist']){
+            $loader->load('listener.yml');
+        }
 
     }
 
@@ -46,7 +52,7 @@ class MeloFlavioNotificacaoExtension extends Extension implements PrependExtensi
             $forInsertion = [
                 'orm' => [
                     'resolve_target_entities' => [
-                        'Sonata\UserBundle\Model\UserInterface' => $config['user']['class']
+                        'Sonata\UserBundle\Model\UserInterface' => $config['class']['user']
                     ]
                 ]
             ];

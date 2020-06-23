@@ -22,10 +22,18 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->arrayNode('user')
+            ->booleanNode('persist')->defaultTrue()->end()
+            ->arrayNode('topic')
                 ->addDefaultsIfNotSet()
                 ->children()
-                    ->scalarNode('class')->defaultValue('App\UFT\UserBundle\Entity\Usuario')->end()
+                    ->scalarNode('default')->defaultValue('global')->end()
+                    ->scalarNode('parameter_id')->defaultValue('createdBy')->end()
+                ->end()
+            ->end()
+            ->arrayNode('class')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('user')->defaultValue('App\UFT\UserBundle\Entity\Usuario')->end()
                 ->end()
             ->end()
 

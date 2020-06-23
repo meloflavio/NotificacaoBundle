@@ -22,22 +22,42 @@ class Sender implements SenderInterface
         $this->container = $container;
     }
 
-
-    public function send(NotificacaoBase $notificacao, $topic = null)
-    {
+    protected function getTopic(NotificacaoBase $notificacao){
+        $topic= $this->container->getParameter('meloflavio_notificacao.topic.default');
+        $topicId = '';
         if(is_null($topic)){
             $topic = get_class($notificacao);
+            $topicId = $notificacao->getCreatedBy()->getUsername();
+        }else{
+            $parameterId = $this->container->getParameter('meloflavio_notificacao.topic.parameter_id');
+            if(!is_null($parameterId)){
+                $parameterGet= 'get'.ucfirst($parameterId);
+                $topicId = $notificacao->$parameterGet();
+            }
+        }
+        return sprintf("/{$topic}/%s",$topicId);
+    }
+
+    public function send(NotificacaoBase $notificacao, $topic = null,$topicId = null)
+    {
+        if($notificacao->getCreatedBy() == null){
+            $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $notificacao->setCreatedBy($user);
+        }
+
+        if(is_null($topic)){
+            $publishTopic = $this->getTopic($notificacao);
+        }else{
+            $publishTopic = sprintf("/{$topic}/%s",$topicId);
         }
         $serializado = $this->serializer->serialize($notificacao, 'json', [
             'attributes' => ['id', 'icone','texto','forBlock'=>[array_keys($notificacao->getForBlock())], 'createdBy'=>['username','firstName','lastname'], 'created']
         ]);
-//
-        $this->publish( sprintf("/{$topic}/%s",$notificacao->getHistoria()->getId()),$serializado);
+        $this->publish( $publishTopic,$serializado);
     }
 
-    public function sendObject( $jsonData, $username,$topic = 'global')
+    public function sendGlobalObject( $jsonData, $username, $topic = 'global')
     {
-//
         $this->publish( sprintf("/{$topic}/%s",$username),$jsonData);
     }
 

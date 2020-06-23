@@ -9,7 +9,13 @@ services:
     autowire: true
     autoconfigure: true
     public: true
+
   meloflavio.notificacao_listener:
     class: MeloFlavio\NotificacaoBundle\Event\EventListener\NotificacaoListener
     tags:
       - name: doctrine.event_subscriber
+  meloflavio.notificacao_sender:
+    class: MeloFlavio\NotificacaoBundle\Sender\Sender
+  MeloFlavio\NotificacaoBundle\Sender\SenderInterface: '@meloflavio.notificacao_sender'
+
+
