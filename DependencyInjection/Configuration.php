@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('topic')
                 ->addDefaultsIfNotSet()
                 ->children()
-                    ->scalarNode('default')->defaultValue('global')->end()
+                    ->scalarNode('default')->defaultValue('/global')->end()
                     ->scalarNode('parameter_id')->defaultValue('createdBy')->end()
                 ->end()
             ->end()

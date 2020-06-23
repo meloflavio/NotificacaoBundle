@@ -56,9 +56,14 @@ class Sender implements SenderInterface
         $this->publish( $publishTopic,$serializado);
     }
 
-    public function sendGlobalObject( $jsonData, $username, $topic = 'global')
+    public function sendObject( $jsonData, $username, $topic = 'global')
     {
         $this->publish( sprintf("/{$topic}/%s",$username),$jsonData);
+    }
+
+    public function sendGlobalObject( $jsonData)
+    {
+        $this->publish( "/global",$jsonData);
     }
 
     public function  publish($topic,$data){

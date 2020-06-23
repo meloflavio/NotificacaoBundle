@@ -78,7 +78,14 @@ abstract class Notificacao extends NotificacaoBase
 
 }
 ```
-####6.  Exemplo de como utilizar
+####6.  Configure as rotas
+crie o arquivo  config/routes/notificacao.yaml
+```yaml
+notificacao_discover:
+  resource: '@MeloFlavioNotificacaoBundle/Resources/config/routing/discover.xml'
+
+...
+####7.  Exemplo de como utilizar
 Adicione ao templete substituindo {{ settings.data_alvo.id }} pelo id da mensagem
 
 ```js

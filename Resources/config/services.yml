@@ -10,6 +10,8 @@ services:
     autoconfigure: true
     public: true
 
+  twig.notificacao_extension:
+    class: MeloFlavio\NotificacaoBundle\Twig\CheckNotificacaoExtension
   meloflavio.notificacao_listener:
     class: MeloFlavio\NotificacaoBundle\Event\EventListener\NotificacaoListener
     tags:
