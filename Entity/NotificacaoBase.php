@@ -3,7 +3,6 @@ namespace MeloFlavio\NotificacaoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
-use Fresh\DoctrineEnumBundle\Validator\Constraints\Enum;
 use Gedmo\Mapping\Annotation as Gedmo;
 use MeloFlavio\NotificacaoBundle\Model\NotificacaoInterface;
 
@@ -11,33 +10,35 @@ use MeloFlavio\NotificacaoBundle\Model\NotificacaoInterface;
  * Class Base
  * @ORM\MappedSuperclass()
  */
-abstract class NotificacaoBase extends Enum implements NotificacaoInterface
+abstract class NotificacaoBase implements NotificacaoInterface
 {
-    public const PESSOA = 1;
-    public const GRUPO = 2;
-    public const SISTEMA = 3;
-    public const GLOBAL = 4;
+
     /**
      * @ORM\Column(type="integer", nullable=false)
      */
-    private $tipoDestinatario = NotificacaoBase::GLOBAL;
+    protected $tipoDestinatario = NotificacaoBase::CUSTOM;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
-    private $destinatario;
+    protected $destinatario;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $topic;
 
     /**
      * @ORM\Column(type="string", length=1500, nullable=true)
      */
-    private $texto;
+    protected $texto;
 
     /**
      * @var string
      *
      * @ORM\Column(name="icon", type="string", length=255, nullable=true)
      */
-    private $icone = 'fa fa-envelope';
+    protected $icone = 'fa fa-envelope';
 
     /**
      * @var DateTime
@@ -62,7 +63,7 @@ abstract class NotificacaoBase extends Enum implements NotificacaoInterface
     /**
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $lida = false;
+    protected $lida = false;
 
 
 
@@ -189,9 +190,20 @@ abstract class NotificacaoBase extends Enum implements NotificacaoInterface
         $this->lida = $lida;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTopic()
+    {
+        return $this->topic;
+    }
 
     /**
-     * @return array
+     * @param mixed $topic
      */
-    abstract public function getForBlock();
+    public function setTopic($topic): void
+    {
+        $this->topic = $topic;
+    }
+
 }
