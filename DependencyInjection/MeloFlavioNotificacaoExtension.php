@@ -52,7 +52,8 @@ class MeloFlavioNotificacaoExtension extends Extension implements PrependExtensi
             $forInsertion = [
                 'orm' => [
                     'resolve_target_entities' => [
-                        'Sonata\UserBundle\Model\UserInterface' => $config['class']['user']
+                        'Sonata\UserBundle\Model\UserInterface' => $config['class']['user'],
+                        'MeloFlavio\NotificacaoBundle\Model\NotificacaoInterface' => $config['class']['notificacao']
                     ]
                 ]
             ];

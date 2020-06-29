@@ -33,6 +33,7 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('class')
                 ->addDefaultsIfNotSet()
                 ->children()
+                    ->scalarNode('notificacao')->defaultValue('App\Entity\Notificacao')->end()
                     ->scalarNode('user')->defaultValue('App\UFT\UserBundle\Entity\Usuario')->end()
                 ->end()
             ->end()

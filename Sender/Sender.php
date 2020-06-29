@@ -4,6 +4,7 @@
 namespace MeloFlavio\NotificacaoBundle\Sender;
 
 
+use App\UFT\UserBundle\Entity\Usuario;
 use MeloFlavio\NotificacaoBundle\Entity\NotificacaoBase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Mercure\PublisherInterface;
@@ -42,17 +43,20 @@ class Sender implements SenderInterface
     {
         if($notificacao->getCreatedBy() == null){
             $user = $this->container->get('security.token_storage')->getToken()->getUser();
-            $notificacao->setCreatedBy($user);
+            $notificacao->setCreatedBy(in_null($user)?'sistema':$user->getUsername());
         }
 
         if(is_null($topic)){
             $publishTopic = $this->getTopic($notificacao);
+        } elseif (is_null($topicId)) {
+            $publishTopic = $topic;
         }else{
             $publishTopic = sprintf("/{$topic}/%s",$topicId);
         }
         $serializado = $this->serializer->serialize($notificacao, 'json', [
             'attributes' => ['id', 'icone','texto','forBlock'=>[array_keys($notificacao->getForBlock())], 'createdBy'=>['username','firstName','lastname'], 'created']
         ]);
+
         $this->publish( $publishTopic,$serializado);
     }
 
@@ -70,10 +74,10 @@ class Sender implements SenderInterface
     {
 
         if( $this->container->hasParameter('APP_NAME')){
-            $system = $this->container->hasParameter('APP_NAME');
+            $system = $this->container->getParameter('APP_NAME');
             $text = $system.' diz: '.$text;
         }
-        $this->sendObject( json_encode(['title'=>$title,'text'=>$text ]));
+        $this->sendObject( json_encode(['title'=>$title,'text'=>$text ]),$username);
     }
 
     public function  publish($topic,$data){

@@ -3,14 +3,30 @@ namespace MeloFlavio\NotificacaoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Fresh\DoctrineEnumBundle\Validator\Constraints\Enum;
 use Gedmo\Mapping\Annotation as Gedmo;
+use MeloFlavio\NotificacaoBundle\Model\NotificacaoInterface;
 
 /**
  * Class Base
  * @ORM\MappedSuperclass()
  */
-abstract class NotificacaoBase
+abstract class NotificacaoBase extends Enum implements NotificacaoInterface
 {
+    public const PESSOA = 1;
+    public const GRUPO = 2;
+    public const SISTEMA = 3;
+    public const GLOBAL = 4;
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $tipoDestinatario = NotificacaoBase::GLOBAL;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $destinatario;
+
     /**
      * @ORM\Column(type="string", length=1500, nullable=true)
      */
@@ -39,22 +55,54 @@ abstract class NotificacaoBase
     /**
      *
      * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="Sonata\UserBundle\Model\UserInterface")
-     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     * @ORM\Column
      */
     protected $createdBy;
+
     /**
-     *
-     * @Gedmo\Blameable(on="update")
-     * @ORM\ManyToOne(targetEntity="Sonata\UserBundle\Model\UserInterface")
-     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $updatedBy;
+    private $lida = false;
+
 
 
     public function __construct()
     {
     }
+
+    /**
+     * @return int
+     */
+    public function getTipoDestinatario(): int
+    {
+        return $this->tipoDestinatario;
+    }
+
+    /**
+     * @param int $tipoDestinatario
+     */
+    public function setTipoDestinatario(int $tipoDestinatario): void
+    {
+        $this->tipoDestinatario = $tipoDestinatario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDestinatario()
+    {
+        return $this->destinatario;
+    }
+
+    /**
+     * @param mixed $destinatario
+     */
+    public function setDestinatario($destinatario): void
+    {
+        $this->destinatario = $destinatario;
+    }
+
+
 
     /**
      * @return DateTime
@@ -89,37 +137,20 @@ abstract class NotificacaoBase
     }
 
     /**
-     * @return \Sonata\UserBundle\Model\UserInterface
+     * @return mixed
      */
-    public function getCreatedBy(): ?\Sonata\UserBundle\Model\UserInterface
+    public function getCreatedBy()
     {
         return $this->createdBy;
     }
 
     /**
-     * @param \Sonata\UserBundle\Model\UserInterface $createdBy
+     * @param mixed $createdBy
      */
-    public function setCreatedBy(\Sonata\UserBundle\Model\UserInterface $createdBy): void
+    public function setCreatedBy($createdBy): void
     {
         $this->createdBy = $createdBy;
     }
-
-    /**
-     * @return \Sonata\UserBundle\Model\UserInterface
-     */
-    public function getUpdatedBy(): ?\Sonata\UserBundle\Model\UserInterface
-    {
-        return $this->updatedBy;
-    }
-
-    /**
-     * @param \Sonata\UserBundle\Model\UserInterface $updatedBy
-     */
-    public function setUpdatedBy(\Sonata\UserBundle\Model\UserInterface $updatedBy): void
-    {
-        $this->updatedBy = $updatedBy;
-    }
-
 
 
     public function getTexto(): ?string
@@ -141,6 +172,24 @@ abstract class NotificacaoBase
     {
         $this->icone = $icone;
     }
+
+    /**
+     * @return bool
+     */
+    public function isLida(): bool
+    {
+        return $this->lida;
+    }
+
+    /**
+     * @param bool $lida
+     */
+    public function setLida(bool $lida): void
+    {
+        $this->lida = $lida;
+    }
+
+
     /**
      * @return array
      */

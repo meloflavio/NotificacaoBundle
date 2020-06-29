@@ -39,8 +39,23 @@ class NotificacaoListener implements EventSubscriber
         /** @var NotificacaoBase $notificacao */
         $notificacao = $eventArgs->getObject();
 
-//
-        $this->sender->send($notificacao,'message_historia',$notificacao->getHistoria()->getId());
+        switch ($notificacao->getTipoDestinatario()){
+            case NotificacaoBase::PESSOA:
+            case NotificacaoBase::GRUPO:
+            case NotificacaoBase::SISTEMA:
+                $topic = $notificacao->getDestinatario();
+                break;
+            case NotificacaoBase::GLOBAL:
+                $topic = 'global';
+                break;
+            default:
+                $topic = 'message_historia';
+                $id = $notificacao->getHistoria()->getId();
+                $this->sender->send($notificacao,$topic,$notificacao->getHistoria()->getId());
+                return;
+        }
+
+        $this->sender->send($notificacao,$topic);
 
         return ;
 
