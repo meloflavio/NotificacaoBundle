@@ -20,6 +20,7 @@ class MeloFlavioNotificacaoExtension extends Extension implements PrependExtensi
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('melo_flavio_notificacao.class.user', $config['class']['user']);
+        $container->setParameter('melo_flavio_notificacao.class.notificacao', $config['class']['notificacao']);
         $container->setParameter('melo_flavio_notificacao.persist', $config['persist']);
         $container->setParameter('melo_flavio_notificacao.topic.default', $config['topic']['default']);
         $container->setParameter('melo_flavio_notificacao.topic.parameter_id', $config['topic']['parameter_id']);
