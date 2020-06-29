@@ -48,6 +48,9 @@ class NotificacaoListener implements EventSubscriber
             case NotificacaoBase::GLOBAL:
                 $topic = 'global';
                 break;
+            case NotificacaoBase::CUSTOM:
+                $topic = $notificacao->getTopic();
+                break;
             default:
                 $topic = 'message_historia';
                 $id = $notificacao->getHistoria()->getId();
